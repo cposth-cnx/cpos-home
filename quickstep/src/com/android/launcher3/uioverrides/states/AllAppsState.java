@@ -139,7 +139,10 @@ public class AllAppsState extends LauncherState {
     protected <DEVICE_PROFILE_CONTEXT extends Context & ActivityContext> float getDepthUnchecked(
             DEVICE_PROFILE_CONTEXT context) {
         if (context.getDeviceProfile().isTablet) {
-            return context.getDeviceProfile().bottomSheetDepth;
+            // Zoom the wallpaper out a bit further than the default bottom-sheet depth when
+            // All Apps opens, so the wallpaper recedes behind the drawer on tablets.
+            return Math.min(1f,
+                    context.getDeviceProfile().bottomSheetDepth + TABLET_EXTRA_WALLPAPER_ZOOM);
         } else {
             // The scrim fades in at approximately 50% of the swipe gesture.
             if (enableScalingRevealHomeAnimation()) {
@@ -227,4 +230,7 @@ public class AllAppsState extends LauncherState {
 
     /** Alpha (0-255) of the dim drawn behind the All Apps bottom sheet on tablets. */
     private static final int TABLET_BOTTOM_SHEET_SCRIM_ALPHA = 128;
+
+    /** Extra wallpaper zoom-out (depth 0-1) applied on top of the bottom-sheet depth on tablets. */
+    private static final float TABLET_EXTRA_WALLPAPER_ZOOM = 0.15f;
 }

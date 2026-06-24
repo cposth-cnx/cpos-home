@@ -222,10 +222,16 @@ class LawnQsbLayout(context: Context, attrs: AttributeSet?) : FrameLayout(contex
         with(inner) {
             clipToOutline = cornerRadius > 0
             background = qsbBackground
+            // Subtle shadow so the search bar reads as a raised surface, like the icons.
+            outlineProvider = android.view.ViewOutlineProvider.BACKGROUND
+            elevation = QSB_SHADOW_ELEVATION_DP * resources.displayMetrics.density
         }
     }
 
     companion object {
+        /** Subtle elevation (dp) giving the drawer search bar a faint shadow. */
+        private const val QSB_SHADOW_ELEVATION_DP = 3f
+
         private const val LENS_PACKAGE = "com.google.ar.lens"
         private const val LENS_ACTIVITY = "com.google.vr.apps.ornament.app.lens.LensLauncherActivity"
 

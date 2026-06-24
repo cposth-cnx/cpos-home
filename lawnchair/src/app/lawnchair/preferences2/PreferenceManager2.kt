@@ -693,7 +693,7 @@ class PreferenceManager2 private constructor(private val context: Context) :
 
     val wallpaperDepthEffect = preference(
         key = booleanPreferencesKey(name = "enable_wallpaper_depth_effect"),
-        defaultValue = false,
+        defaultValue = true,
         onSet = { reloadHelper.recreate() },
     )
 
