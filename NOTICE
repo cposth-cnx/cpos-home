@@ -1,0 +1,42 @@
+CPOS Home
+=========
+
+CPOS Home is a home app (launcher) for Android, derived from
+Lawnchair Launcher.
+
+License
+-------
+
+This product, as a combined work, is licensed under the GNU General
+Public License version 3 (GPLv3). See the COPYING file for the full
+license text.
+
+The combined work includes:
+
+  * Code derived from the Android Open Source Project (Launcher3),
+    originally licensed under the Apache License, Version 2.0. The
+    Apache-2.0 license text is retained in LICENSE.txt. Apache-2.0 is
+    compatible with, and is incorporated into, this GPLv3 work.
+
+  * Original Lawnchair Launcher code, licensed under GPLv3.
+    Upstream project: https://github.com/LawnchairLauncher/lawnchair
+
+Because GPLv3-licensed components are combined with the rest of the
+code into a single program, the resulting application is distributed
+under GPLv3 as a whole.
+
+Modifications
+-------------
+
+This software has been modified from the original Lawnchair Launcher.
+Changes include rebranding to "CPOS Home" and adjustments to default
+values, UI, and bundled features. See the project's git history for
+the complete list of changes.
+
+Source code
+-----------
+
+In accordance with GPLv3, the complete corresponding source code for
+this application is made available to all recipients. If you received
+a device or binary that includes CPOS Home and did not receive the
+source, you are entitled to obtain it.
