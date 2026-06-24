@@ -164,7 +164,7 @@ fun About(
             item {
                 PreferenceGroupItem(
                     cutTop = false,
-                    cutBottom = false,
+                    cutBottom = true,
                 ) {
                     SwitchPreference(
                         adapter = advancedModeAdapter,
@@ -176,9 +176,12 @@ fun About(
         }
         item {
             PreferenceGroupItem(
-                cutTop = false,
+                cutTop = advancedModeUnlocked,
                 cutBottom = false,
             ) {
+                if (advancedModeUnlocked) {
+                    PreferenceDivider()
+                }
                 NavigationActionPreference(
                     label = stringResource(id = R.string.credits),
                     destination = AboutCredits,
@@ -204,7 +207,7 @@ fun About(
         item {
             PreferenceGroupItem(
                 cutTop = true,
-                cutBottom = true,
+                cutBottom = false,
             ) {
                 PreferenceDivider()
                 ClickablePreference(

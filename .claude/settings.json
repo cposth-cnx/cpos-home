@@ -39,7 +39,9 @@
       "Bash(./gradlew :compileLawnWithQuickstepGithubDebugKotlin -q)",
       "Bash(adb uninstall *)",
       "Bash(./gradlew :installLawnWithQuickstepGithubRelease)",
-      "Bash(echo \"exit-grep:$?\")"
+      "Bash(echo \"exit-grep:$?\")",
+      "Bash(adb pull *)",
+      "Bash(python3 -)"
     ],
     "additionalDirectories": [
       "/private/tmp"
