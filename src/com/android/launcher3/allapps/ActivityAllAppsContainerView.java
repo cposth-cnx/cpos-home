@@ -331,9 +331,12 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
                 0,
                 0 // Bottom left
         };
-        mBottomSheetBackgroundColor = ColorTokens.SurfaceDimColor.resolveColor(getContext());
+        // Use the same neutral background token as the full-screen drawer (Neutral1_50 /
+        // Neutral1_900) instead of the more heavily tinted SurfaceDim tone, so the bottom
+        // sheet on large screens looks as light as the regular drawer / Pixel launcher.
+        mBottomSheetBackgroundColor = ColorTokens.AllAppsScrimColor.resolveColor(getContext());
         // Honor the user's "App drawer background color" preference so the bottom sheet
-        // (shown on large screens/tablets) doesn't fall back to the tinted SurfaceDim tone.
+        // (shown on large screens/tablets) reflects a custom color when one is set.
         var bottomSheetColorOptions = PreferenceExtensionsKt.firstBlocking(
                 pref2.getAppDrawerBackgroundColor());
         var bottomSheetColor = bottomSheetColorOptions.getColorPreferenceEntry()
