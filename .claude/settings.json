@@ -46,7 +46,10 @@
       "Bash(timeout 580 ./gradlew :compileLawnchairWithQuickstepLawnWithQuickstepDebugKotlin -q)",
       "Bash(echo \"EXIT=$?\")",
       "Bash(./gradlew tasks *)",
-      "Bash(grep -iE \"^assemble.*Release$\")"
+      "Bash(grep -iE \"^assemble.*Release$\")",
+      "Bash(awk '/productFlavors/,/^    }/' build.gradle)",
+      "Bash(awk 'NR>=271 && NR<=320' build.gradle)",
+      "Bash(awk 'NR>=218 && NR<=235' build.gradle)"
     ],
     "additionalDirectories": [
       "/private/tmp"
