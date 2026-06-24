@@ -182,6 +182,9 @@ public class DeviceProfile {
     private int maxEmptySpace;
     public int workspaceTopPadding;
     public int workspaceBottomPadding;
+    // Extra bottom padding so enlarged icon labels (e.g. at 110% icon size) aren't clipped
+    // on the last workspace row.
+    public final int extraWorkspaceBottomPaddingPx;
 
     // Workspace page indicator
     public int workspacePageIndicatorHeight;
@@ -440,6 +443,8 @@ public class DeviceProfile {
         }
 
         edgeMarginPx = res.getDimensionPixelSize(R.dimen.dynamic_grid_edge_margin);
+        extraWorkspaceBottomPaddingPx =
+                res.getDimensionPixelSize(R.dimen.extra_workspace_bottom_padding);
         workspaceContentScale = res.getFloat(R.dimen.workspace_content_scale);
 
         gridVisualizationPaddingX = res.getDimensionPixelSize(
@@ -1846,7 +1851,8 @@ public class DeviceProfile {
         } else {
             // Pad the bottom of the workspace with hotseat bar
             // and leave a bit of space in case a widget go all the way down
-            int paddingBottom = hotseatBarSizePx + workspaceBottomPadding - mInsets.bottom;
+            int paddingBottom = hotseatBarSizePx + workspaceBottomPadding - mInsets.bottom
+                    + extraWorkspaceBottomPaddingPx;
             if (!mIsResponsiveGrid) {
                 paddingBottom += workspacePageIndicatorHeight - mWorkspacePageIndicatorOverlapWorkspace;
             }

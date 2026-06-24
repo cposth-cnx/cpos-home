@@ -36,6 +36,7 @@
 <!-- Dynamic grid -->
     <dimen name="dynamic_grid_edge_margin">9dp</dimen>
     <dimen name="cell_layout_padding">9dp</dimen>
+    <dimen name="extra_workspace_bottom_padding">12dp</dimen>
 
 <!-- Hotseat -->
     <dimen name="dynamic_grid_hotseat_side_padding">0dp</dimen>
