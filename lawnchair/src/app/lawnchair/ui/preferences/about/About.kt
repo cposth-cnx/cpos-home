@@ -45,6 +45,7 @@ import app.lawnchair.ui.preferences.components.layout.PreferenceDivider
 import app.lawnchair.ui.preferences.components.layout.PreferenceGroupHeading
 import app.lawnchair.ui.preferences.components.layout.PreferenceGroupItem
 import app.lawnchair.ui.preferences.components.layout.PreferenceLayoutLazyColumn
+import app.lawnchair.ui.preferences.navigation.AboutCredits
 import app.lawnchair.ui.preferences.navigation.AboutLicenses
 import com.android.launcher3.BuildConfig
 import com.android.launcher3.R
@@ -128,6 +129,17 @@ fun About(
         }
         item {
             Spacer(modifier = Modifier.height(8.dp))
+        }
+        item {
+            PreferenceGroupItem(
+                cutTop = false,
+                cutBottom = false,
+            ) {
+                NavigationActionPreference(
+                    label = stringResource(id = R.string.credits),
+                    destination = AboutCredits,
+                )
+            }
         }
         item {
             PreferenceGroupHeading(

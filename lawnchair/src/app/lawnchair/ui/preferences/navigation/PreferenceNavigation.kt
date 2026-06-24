@@ -18,6 +18,7 @@ import app.lawnchair.preferences.BasePreferenceManager
 import app.lawnchair.preferences.preferenceManager
 import app.lawnchair.ui.preferences.LocalIsExpandedScreen
 import app.lawnchair.ui.preferences.about.About
+import app.lawnchair.ui.preferences.about.Credits
 import app.lawnchair.ui.preferences.about.acknowledgements.Acknowledgements
 import app.lawnchair.ui.preferences.components.colorpreference.ColorPreferenceModelList
 import app.lawnchair.ui.preferences.components.colorpreference.ColorSelection
@@ -141,6 +142,7 @@ fun PreferenceNavigation(
         composable<Quickstep> { QuickstepPreferences() }
 
         composable<About> { About() }
+        composable<AboutCredits> { Credits() }
         composable<AboutLicenses> { Acknowledgements() }
 
         composable<DebugMenu> { DebugMenuPreferences() }

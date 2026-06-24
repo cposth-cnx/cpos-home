@@ -495,6 +495,8 @@
     <string name="news">News</string>
     <string name="discord" translatable="false">Discord</string>
 
+    <string name="credits">Credits</string>
+
     <string name="legal">Legal</string>
     <string name="acknowledgements">Acknowledgements</string>
     <string name="privacy_policy">Privacy policy</string>

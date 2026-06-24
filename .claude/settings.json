@@ -22,7 +22,14 @@
       "Bash(rm -f .gitmodules)",
       "Bash(git init *)",
       "Bash(git add *)",
-      "Bash(xargs -I{} du -k \"{}\")"
+      "Bash(xargs -I{} du -k \"{}\")",
+      "Bash(git commit -q -m ' *)",
+      "Bash(curl -fsSL https://www.gnu.org/licenses/gpl-3.0.txt -o /tmp/gpl-3.0.txt)",
+      "Read(//tmp/**)",
+      "Bash(cd /Users/t1ramisu/Data/Code/cpos-home *)"
+    ],
+    "additionalDirectories": [
+      "/private/tmp"
     ]
   }
 }
