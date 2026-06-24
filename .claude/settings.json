@@ -26,7 +26,12 @@
       "Bash(git commit -q -m ' *)",
       "Bash(curl -fsSL https://www.gnu.org/licenses/gpl-3.0.txt -o /tmp/gpl-3.0.txt)",
       "Read(//tmp/**)",
-      "Bash(cd /Users/t1ramisu/Data/Code/cpos-home *)"
+      "Bash(cd /Users/t1ramisu/Data/Code/cpos-home *)",
+      "Bash(java -version)",
+      "Bash(./gradlew :tasks --all)",
+      "Bash(git commit --amend -q -m ' *)",
+      "Bash(git remote *)",
+      "Bash(git push *)"
     ],
     "additionalDirectories": [
       "/private/tmp"

@@ -500,6 +500,22 @@ public class InvariantDeviceProfile implements SafeCloseable {
                 // Lawnchair ignores partner overrides and allows the user to customize the grid themselves
                 overrideOptions.applyUi(this);
 
+                // The user-defined icon size factors above scale iconSize/allAppsIconSize, so the icon
+                // bitmap sizes and source icon density must be recomputed from the scaled values.
+                // Otherwise bitmaps are generated at the original (smaller) resolution and merely
+                // upscaled to fill the larger cell, making icons look blurry/pixelated.
+                float scaledMaxIconSize = iconSize[0];
+                for (int i = 1; i < iconSize.length; i++) {
+                        scaledMaxIconSize = Math.max(scaledMaxIconSize, iconSize[i]);
+                }
+                float scaledMaxAllAppsIconSize = allAppsIconSize[0];
+                for (int i = 1; i < allAppsIconSize.length; i++) {
+                        scaledMaxAllAppsIconSize = Math.max(scaledMaxAllAppsIconSize, allAppsIconSize[i]);
+                }
+                iconBitmapSize = ResourceUtils.pxFromDp(scaledMaxIconSize, metrics);
+                allAppsIconBitmapSize = ResourceUtils.pxFromDp(scaledMaxAllAppsIconSize, metrics);
+                fillResIconDpi = getLauncherIconDensity(Math.max(iconBitmapSize, allAppsIconBitmapSize));
+
                 final List<DeviceProfile> localSupportedProfiles = new ArrayList<>();
                 defaultWallpaperSize = new Point(displayInfo.currentSize);
                 SparseArray<DotRenderer> dotRendererCache = new SparseArray<>();
