@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import app.lawnchair.preferences.PreferenceAdapter
 import app.lawnchair.preferences.getAdapter
 import app.lawnchair.preferences.preferenceManager
+import app.lawnchair.preferences2.asState
 import app.lawnchair.preferences2.preferenceManager2
 import app.lawnchair.ui.preferences.LocalIsExpandedScreen
 import app.lawnchair.ui.preferences.components.NavigationActionPreference
@@ -73,10 +74,13 @@ fun AppDrawerPreferences(
         backArrowVisible = !LocalIsExpandedScreen.current,
         modifier = modifier,
     ) {
+        val advancedMode = prefs2.advancedMode.asState().value
         val drawerListAdapter = prefs.drawerList.getAdapter()
-        DrawerLayoutPreference(drawerListAdapter)
-        ExpandAndShrink(visible = drawerListAdapter.state.value) {
-            AppDrawerFolderPreferenceItem()
+        if (advancedMode) {
+            DrawerLayoutPreference(drawerListAdapter)
+            ExpandAndShrink(visible = drawerListAdapter.state.value) {
+                AppDrawerFolderPreferenceItem()
+            }
         }
         PreferenceGroup(heading = stringResource(id = R.string.general_label)) {
             val hiddenApps = prefs2.hiddenApps.getAdapter().state.value
@@ -88,19 +92,21 @@ fun AppDrawerPreferences(
             SearchBarPreference(SearchRoute.DRAWER_SEARCH, showLabel = false)
             SuggestionsPreference()
         }
-        PreferenceGroup(heading = stringResource(R.string.style)) {
-            ColorPreference(preference = prefs2.appDrawerBackgroundColor)
-            SliderPreference(
-                label = stringResource(id = R.string.background_opacity),
-                adapter = prefs.drawerOpacity.getAdapter(),
-                step = 0.1f,
-                valueRange = 0F..1F,
-                showAsPercentage = true,
-            )
-            SwitchPreference(
-                label = stringResource(id = R.string.pref_all_apps_search_bar_background),
-                adapter = prefs2.appDrawerSearchBarBackground.getAdapter(),
-            )
+        if (advancedMode) {
+            PreferenceGroup(heading = stringResource(R.string.style)) {
+                ColorPreference(preference = prefs2.appDrawerBackgroundColor)
+                SliderPreference(
+                    label = stringResource(id = R.string.background_opacity),
+                    adapter = prefs.drawerOpacity.getAdapter(),
+                    step = 0.1f,
+                    valueRange = 0F..1F,
+                    showAsPercentage = true,
+                )
+                SwitchPreference(
+                    label = stringResource(id = R.string.pref_all_apps_search_bar_background),
+                    adapter = prefs2.appDrawerSearchBarBackground.getAdapter(),
+                )
+            }
         }
         PreferenceGroup(heading = stringResource(id = R.string.grid)) {
             SliderPreference(
@@ -153,21 +159,23 @@ fun AppDrawerPreferences(
                 }
             }
         }
-        PreferenceGroup(heading = stringResource(id = R.string.advanced)) {
-            SwitchPreference(
-                label = stringResource(id = R.string.pref_all_apps_bulk_icon_loading_title),
-                description = stringResource(id = R.string.pref_all_apps_bulk_icon_loading_description),
-                adapter = prefs.allAppBulkIconLoading.getAdapter(),
-            )
-            SwitchPreference(
-                label = stringResource(id = R.string.pref_all_apps_remember_position_title),
-                description = stringResource(id = R.string.pref_all_apps_remember_position_description),
-                adapter = prefs2.rememberPosition.getAdapter(),
-            )
-            SwitchPreference(
-                label = stringResource(id = R.string.pref_all_apps_show_scrollbar_title),
-                adapter = prefs2.showScrollbar.getAdapter(),
-            )
+        if (advancedMode) {
+            PreferenceGroup(heading = stringResource(id = R.string.advanced)) {
+                SwitchPreference(
+                    label = stringResource(id = R.string.pref_all_apps_bulk_icon_loading_title),
+                    description = stringResource(id = R.string.pref_all_apps_bulk_icon_loading_description),
+                    adapter = prefs.allAppBulkIconLoading.getAdapter(),
+                )
+                SwitchPreference(
+                    label = stringResource(id = R.string.pref_all_apps_remember_position_title),
+                    description = stringResource(id = R.string.pref_all_apps_remember_position_description),
+                    adapter = prefs2.rememberPosition.getAdapter(),
+                )
+                SwitchPreference(
+                    label = stringResource(id = R.string.pref_all_apps_show_scrollbar_title),
+                    adapter = prefs2.showScrollbar.getAdapter(),
+                )
+            }
         }
     }
 }

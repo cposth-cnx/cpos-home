@@ -88,6 +88,7 @@ fun PreferencesDashboard(
     val context = LocalContext.current
     SyncLiveInformation()
     val pref2 = preferenceManager2()
+    val advancedMode = pref2.advancedMode.getAdapter().state.value
 
     PreferenceLayout(
         label = stringResource(id = R.string.settings),
@@ -123,13 +124,15 @@ fun PreferencesDashboard(
                 isSelected = currentRoute is HomeScreen,
             )
 
-            PreferenceCategory(
-                label = stringResource(id = R.string.smartspace_widget),
-                description = stringResource(R.string.smartspace_widget_description),
-                iconResource = R.drawable.ic_smartspace,
-                onNavigate = { onNavigate(Smartspace) },
-                isSelected = currentRoute is Smartspace,
-            )
+            if (advancedMode) {
+                PreferenceCategory(
+                    label = stringResource(id = R.string.smartspace_widget),
+                    description = stringResource(R.string.smartspace_widget_description),
+                    iconResource = R.drawable.ic_smartspace,
+                    onNavigate = { onNavigate(Smartspace) },
+                    isSelected = currentRoute is Smartspace,
+                )
+            }
 
             PreferenceCategory(
                 label = stringResource(R.string.dock_label),
@@ -166,13 +169,15 @@ fun PreferencesDashboard(
                 isSelected = currentRoute is Folders,
             )
 
-            PreferenceCategory(
-                label = stringResource(id = R.string.gestures_label),
-                description = stringResource(R.string.gestures_description),
-                iconResource = R.drawable.ic_gestures,
-                onNavigate = { onNavigate(Gestures) },
-                isSelected = currentRoute is Gestures,
-            )
+            if (advancedMode) {
+                PreferenceCategory(
+                    label = stringResource(id = R.string.gestures_label),
+                    description = stringResource(R.string.gestures_description),
+                    iconResource = R.drawable.ic_gestures,
+                    onNavigate = { onNavigate(Gestures) },
+                    isSelected = currentRoute is Gestures,
+                )
+            }
 
             if (LawnchairApp.isRecentsEnabled || BuildConfig.DEBUG) {
                 PreferenceCategory(

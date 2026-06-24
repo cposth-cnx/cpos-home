@@ -31,7 +31,15 @@
       "Bash(./gradlew :tasks --all)",
       "Bash(git commit --amend -q -m ' *)",
       "Bash(git remote *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(tee /private/tmp/claude-501/-Users-t1ramisu-Data-Code-cpos-home/2418ac7e-5685-475d-9cbb-34b590792e88/scratchpad/build.log)",
+      "Bash(./gradlew installLawnWithQuickstepGithubRelease)",
+      "Bash(adb logcat *)",
+      "Bash(grep -i -E \"\\\\.\\(kt|java|xml\\)$\")",
+      "Bash(./gradlew :compileLawnWithQuickstepGithubDebugKotlin -q)",
+      "Bash(adb uninstall *)",
+      "Bash(./gradlew :installLawnWithQuickstepGithubRelease)",
+      "Bash(echo \"exit-grep:$?\")"
     ],
     "additionalDirectories": [
       "/private/tmp"

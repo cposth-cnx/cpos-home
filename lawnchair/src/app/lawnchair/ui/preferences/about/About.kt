@@ -17,7 +17,9 @@
 package app.lawnchair.ui.preferences.about
 
 import android.content.Intent
+import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -30,6 +32,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
@@ -38,9 +44,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
+import app.lawnchair.preferences.getAdapter
+import app.lawnchair.preferences2.preferenceManager2
 import app.lawnchair.ui.preferences.LocalIsExpandedScreen
 import app.lawnchair.ui.preferences.components.NavigationActionPreference
 import app.lawnchair.ui.preferences.components.controls.ClickablePreference
+import app.lawnchair.ui.preferences.components.controls.SwitchPreference
 import app.lawnchair.ui.preferences.components.layout.PreferenceDivider
 import app.lawnchair.ui.preferences.components.layout.PreferenceGroupHeading
 import app.lawnchair.ui.preferences.components.layout.PreferenceGroupItem
@@ -50,11 +59,18 @@ import app.lawnchair.ui.preferences.navigation.AboutLicenses
 import com.android.launcher3.BuildConfig
 import com.android.launcher3.R
 
+private const val ADVANCED_MODE_TAP_THRESHOLD = 7
+
 @Composable
 fun About(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
+    val prefs2 = preferenceManager2()
+    val advancedModeUnlockedAdapter = prefs2.advancedModeUnlocked.getAdapter()
+    val advancedModeAdapter = prefs2.advancedMode.getAdapter()
+    val advancedModeUnlocked = advancedModeUnlockedAdapter.state.value
+    var logoTapCount by remember { mutableIntStateOf(0) }
 
     PreferenceLayoutLazyColumn(
         label = stringResource(id = R.string.about_label),
@@ -75,7 +91,21 @@ fun About(
                     contentDescription = null,
                     modifier = Modifier
                         .size(72.dp)
-                        .clip(CircleShape),
+                        .clip(CircleShape)
+                        .clickable {
+                            if (advancedModeUnlocked) return@clickable
+                            logoTapCount++
+                            if (logoTapCount >= ADVANCED_MODE_TAP_THRESHOLD) {
+                                logoTapCount = 0
+                                advancedModeUnlockedAdapter.onChange(true)
+                                advancedModeAdapter.onChange(true)
+                                Toast.makeText(
+                                    context,
+                                    R.string.advanced_mode_enabled_toast,
+                                    Toast.LENGTH_SHORT,
+                                ).show()
+                            }
+                        },
                 )
             }
         }
@@ -129,6 +159,20 @@ fun About(
         }
         item {
             Spacer(modifier = Modifier.height(8.dp))
+        }
+        if (advancedModeUnlocked) {
+            item {
+                PreferenceGroupItem(
+                    cutTop = false,
+                    cutBottom = false,
+                ) {
+                    SwitchPreference(
+                        adapter = advancedModeAdapter,
+                        label = stringResource(id = R.string.advanced_mode_label),
+                        description = stringResource(id = R.string.advanced_mode_description),
+                    )
+                }
+            }
         }
         item {
             PreferenceGroupItem(

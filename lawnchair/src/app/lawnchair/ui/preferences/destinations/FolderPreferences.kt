@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import app.lawnchair.preferences.getAdapter
 import app.lawnchair.preferences.preferenceManager
+import app.lawnchair.preferences2.asState
 import app.lawnchair.preferences2.preferenceManager2
 import app.lawnchair.ui.preferences.LocalIsExpandedScreen
 import app.lawnchair.ui.preferences.components.colorpreference.ColorPreference
@@ -42,22 +43,25 @@ fun FolderPreferences(
     ) {
         val prefs = preferenceManager()
         val prefs2 = preferenceManager2()
-        PreferenceGroup(heading = stringResource(id = R.string.general_label)) {
-            ColorPreference(preference = prefs2.folderColor)
-            SliderPreference(
-                label = stringResource(id = R.string.folder_preview_bg_opacity_label),
-                adapter = prefs2.folderPreviewBackgroundOpacity.getAdapter(),
-                step = 0.1F,
-                valueRange = 0F..1F,
-                showAsPercentage = true,
-            )
-            SliderPreference(
-                label = stringResource(id = R.string.folder_bg_opacity_label),
-                adapter = prefs2.folderBackgroundOpacity.getAdapter(),
-                step = 0.1F,
-                valueRange = 0F..1F,
-                showAsPercentage = true,
-            )
+        val advancedMode = prefs2.advancedMode.asState().value
+        if (advancedMode) {
+            PreferenceGroup(heading = stringResource(id = R.string.general_label)) {
+                ColorPreference(preference = prefs2.folderColor)
+                SliderPreference(
+                    label = stringResource(id = R.string.folder_preview_bg_opacity_label),
+                    adapter = prefs2.folderPreviewBackgroundOpacity.getAdapter(),
+                    step = 0.1F,
+                    valueRange = 0F..1F,
+                    showAsPercentage = true,
+                )
+                SliderPreference(
+                    label = stringResource(id = R.string.folder_bg_opacity_label),
+                    adapter = prefs2.folderBackgroundOpacity.getAdapter(),
+                    step = 0.1F,
+                    valueRange = 0F..1F,
+                    showAsPercentage = true,
+                )
+            }
         }
         PreferenceGroup(heading = stringResource(id = R.string.grid)) {
             SliderPreference(

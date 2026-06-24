@@ -28,6 +28,7 @@ import app.lawnchair.data.iconoverride.IconOverrideRepository
 import app.lawnchair.nexuslauncher.OverlayCallbackImpl
 import app.lawnchair.preferences.getAdapter
 import app.lawnchair.preferences.preferenceManager
+import app.lawnchair.preferences2.asState
 import app.lawnchair.preferences2.preferenceManager2
 import app.lawnchair.theme.color.ColorMode
 import app.lawnchair.ui.preferences.LocalIsExpandedScreen
@@ -69,6 +70,7 @@ fun HomeScreenPreferences(
     ) {
         val lockHomeScreenAdapter = prefs2.lockHomeScreen.getAdapter()
         val showDeckLayout = prefs2.showDeckLayout.getAdapter().state.value
+        val advancedMode = prefs2.advancedMode.asState().value
         val context = LocalContext.current
 
         if (showDeckLayout) {
@@ -87,10 +89,12 @@ fun HomeScreenPreferences(
                     enabled = lockHomeScreenAdapter.state.value.not(),
                 )
             }
-            GestureHandlerPreference(
-                adapter = prefs2.doubleTapGestureHandler.getAdapter(),
-                label = stringResource(id = R.string.gesture_double_tap),
-            )
+            if (advancedMode) {
+                GestureHandlerPreference(
+                    adapter = prefs2.doubleTapGestureHandler.getAdapter(),
+                    label = stringResource(id = R.string.gesture_double_tap),
+                )
+            }
             SwitchPreference(
                 prefs.infiniteScrolling.getAdapter(),
                 label = stringResource(id = R.string.infinite_scrolling_label),
@@ -108,6 +112,7 @@ fun HomeScreenPreferences(
                 },
             )
         }
+        if (advancedMode) {
         PreferenceGroup(heading = stringResource(id = R.string.minus_one)) {
             val feedAvailable = OverlayCallbackImpl.minusOneAvailable(LocalContext.current)
             val enableFeedAdapter = prefs2.enableFeed.getAdapter()
@@ -145,6 +150,7 @@ fun HomeScreenPreferences(
                 label = stringResource(id = R.string.show_sys_ui_scrim),
             )
         }
+        }
         PreferenceGroup(heading = stringResource(id = R.string.layout)) {
             val columns by prefs.workspaceColumns.getAdapter()
             val rows by prefs.workspaceRows.getAdapter()
@@ -164,6 +170,7 @@ fun HomeScreenPreferences(
                 description = stringResource(id = R.string.show_dot_pagination_description),
             )
         }
+        if (advancedMode) {
         PreferenceGroup(heading = stringResource(id = R.string.popup_menu)) {
             SwitchPreference(
                 adapter = prefs2.enableMaterialUPopUp.getAdapter(),
@@ -191,6 +198,7 @@ fun HomeScreenPreferences(
                     description = stringResource(id = R.string.status_bar_clock_description),
                 )
             }
+        }
         }
         PreferenceGroup(heading = stringResource(id = R.string.icons)) {
             SliderPreference(
@@ -226,6 +234,7 @@ fun HomeScreenPreferences(
                 )
             }
         }
+        if (advancedMode) {
         PreferenceGroup(heading = stringResource(id = R.string.widget_button_text)) {
             SwitchPreference(
                 adapter = prefs2.roundedWidgets.getAdapter(),
@@ -245,6 +254,7 @@ fun HomeScreenPreferences(
                 label = stringResource(id = R.string.force_widget_resize_label),
                 description = stringResource(id = R.string.force_widget_resize_description),
             )
+        }
         }
     }
 }

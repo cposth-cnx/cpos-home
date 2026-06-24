@@ -59,6 +59,7 @@ fun GeneralPreferences() {
     val context = LocalContext.current
     val prefs = preferenceManager()
     val prefs2 = preferenceManager2()
+    val advancedMode = prefs2.advancedMode.asState().value
     val iconPacks by LocalPreferenceInteractor.current.iconPacks.collectAsStateWithLifecycle()
     val themedIconsAdapter = prefs.themedIcons.getAdapter()
     val drawerThemedIconsAdapter = prefs.drawerThemedIcons.getAdapter()
@@ -96,7 +97,7 @@ fun GeneralPreferences() {
                 description = stringResource(id = R.string.home_screen_rotation_description),
             )
         }
-        ExpandAndShrink(visible = prefs2.enableFontSelection.asState().value) {
+        ExpandAndShrink(visible = advancedMode && prefs2.enableFontSelection.asState().value) {
             PreferenceGroup(heading = stringResource(id = R.string.font_label)) {
                 FontPreference(
                     fontPref = prefs.fontWorkspace,
@@ -147,36 +148,40 @@ fun GeneralPreferences() {
                     IconShapePreview(iconShape = iconShapeAdapter.state.value)
                 },
             )
-            SwitchPreference(
-                adapter = wrapAdaptiveIcons,
-                label = stringResource(id = R.string.auto_adaptive_icons_label),
-                description = stringResource(id = R.string.auto_adaptive_icons_description),
-            )
-            SwitchPreference(
-                adapter = prefs.shadowBGIcons.getAdapter(),
-                label = stringResource(id = R.string.shadow_bg_icons_label),
-            )
-
-            ExpandAndShrink(visible = wrapAdaptiveIcons.state.value) {
-                SliderPreference(
-                    label = stringResource(id = R.string.background_lightness_label),
-                    adapter = prefs.coloredBackgroundLightness.getAdapter(),
-                    valueRange = 0F..1F,
-                    step = 0.1f,
-                    showAsPercentage = true,
+            if (advancedMode) {
+                SwitchPreference(
+                    adapter = wrapAdaptiveIcons,
+                    label = stringResource(id = R.string.auto_adaptive_icons_label),
+                    description = stringResource(id = R.string.auto_adaptive_icons_description),
                 )
+                SwitchPreference(
+                    adapter = prefs.shadowBGIcons.getAdapter(),
+                    label = stringResource(id = R.string.shadow_bg_icons_label),
+                )
+
+                ExpandAndShrink(visible = wrapAdaptiveIcons.state.value) {
+                    SliderPreference(
+                        label = stringResource(id = R.string.background_lightness_label),
+                        adapter = prefs.coloredBackgroundLightness.getAdapter(),
+                        valueRange = 0F..1F,
+                        step = 0.1f,
+                        showAsPercentage = true,
+                    )
+                }
             }
         }
 
         PreferenceGroup(heading = stringResource(id = R.string.colors)) {
             ThemePreference()
             ColorPreference(preference = prefs2.accentColor)
-            if (Utilities.ATLEAST_S && prefs2.accentColor.getAdapter().state.value == ColorOption.SystemAccent) {
-                if (!Utilities.ATLEAST_S) {
+            if (advancedMode) {
+                if (Utilities.ATLEAST_S && prefs2.accentColor.getAdapter().state.value == ColorOption.SystemAccent) {
+                    if (!Utilities.ATLEAST_S) {
+                        ColorStylePreference(prefs2.colorStyle.getAdapter())
+                    }
+                } else {
                     ColorStylePreference(prefs2.colorStyle.getAdapter())
                 }
-            } else {
-                ColorStylePreference(prefs2.colorStyle.getAdapter())
             }
         }
 

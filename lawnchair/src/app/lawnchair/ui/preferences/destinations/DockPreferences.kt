@@ -33,6 +33,7 @@ import app.lawnchair.preferences.PreferenceManager
 import app.lawnchair.preferences.getAdapter
 import app.lawnchair.preferences.preferenceManager
 import app.lawnchair.preferences2.PreferenceManager2
+import app.lawnchair.preferences2.asState
 import app.lawnchair.preferences2.preferenceManager2
 import app.lawnchair.ui.preferences.LocalIsExpandedScreen
 import app.lawnchair.ui.preferences.components.DummyLauncherBox
@@ -63,19 +64,22 @@ fun DockPreferences(modifier: Modifier = Modifier) {
         modifier = modifier,
     ) {
         val hotseatBgAdapter = prefs.hotseatBG.getAdapter()
+        val advancedMode = prefs2.advancedMode.asState().value
 
         MainSwitchPreference(adapter = prefs2.isHotseatEnabled.getAdapter(), label = stringResource(id = R.string.show_hotseat_title)) {
             DockPreferencesPreview()
-            PreferenceGroup(heading = stringResource(id = R.string.style)) {
-                SwitchPreference(
-                    adapter = hotseatBgAdapter,
-                    label = stringResource(id = R.string.hotseat_background),
-                )
-                ExpandAndShrink(visible = hotseatBgAdapter.state.value) {
-                    HotseatBackgroundSettings(prefs, prefs2)
+            if (advancedMode) {
+                PreferenceGroup(heading = stringResource(id = R.string.style)) {
+                    SwitchPreference(
+                        adapter = hotseatBgAdapter,
+                        label = stringResource(id = R.string.hotseat_background),
+                    )
+                    ExpandAndShrink(visible = hotseatBgAdapter.state.value) {
+                        HotseatBackgroundSettings(prefs, prefs2)
+                    }
                 }
+                SearchBarPreference(SearchRoute.DOCK_SEARCH)
             }
-            SearchBarPreference(SearchRoute.DOCK_SEARCH)
             PreferenceGroup(heading = stringResource(id = R.string.grid)) {
                 GridSettings(prefs, prefs2)
             }

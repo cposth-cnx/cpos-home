@@ -382,6 +382,24 @@ class PreferenceManager2 private constructor(private val context: Context) :
         defaultValue = context.resources.getBoolean(R.bool.config_default_enable_smartspace_calendar_selection),
     )
 
+    /**
+     * Whether the hidden "Advanced Mode" toggle has been unlocked (via tapping the About logo
+     * 7 times). Controls visibility of the toggle in About; persists once unlocked.
+     */
+    val advancedModeUnlocked = preference(
+        key = booleanPreferencesKey(name = "advanced_mode_unlocked"),
+        defaultValue = false,
+    )
+
+    /**
+     * Whether Advanced Mode is currently enabled. When off (the default), the preference screens
+     * only expose a simplified subset of options.
+     */
+    val advancedMode = preference(
+        key = booleanPreferencesKey(name = "advanced_mode"),
+        defaultValue = false,
+    )
+
     val autoShowKeyboardInDrawer = preference(
         key = booleanPreferencesKey(name = "auto_show_keyboard_in_drawer"),
         defaultValue = context.resources.getBoolean(R.bool.config_default_auto_show_keyboard_in_drawer),

@@ -497,6 +497,10 @@
 
     <string name="credits">Credits</string>
 
+    <string name="advanced_mode_label">Advanced Mode</string>
+    <string name="advanced_mode_description">Show all customization options</string>
+    <string name="advanced_mode_enabled_toast">Advanced Mode enabled</string>
+
     <string name="legal">Legal</string>
     <string name="acknowledgements">Acknowledgements</string>
     <string name="privacy_policy">Privacy policy</string>
