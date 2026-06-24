@@ -115,20 +115,22 @@ fun AppDrawerPreferences(
                 step = 1,
                 valueRange = 3..10,
             )
-            SliderPreference(
-                adapter = prefs2.drawerCellHeightFactor.getAdapter(),
-                label = stringResource(id = R.string.row_height_label),
-                valueRange = 0.3F..1.5F,
-                step = 0.1F,
-                showAsPercentage = true,
-            )
-            SliderPreference(
-                adapter = prefs2.drawerLeftRightMarginFactor.getAdapter(),
-                label = stringResource(id = R.string.app_drawer_indent_label),
-                valueRange = 0.0F..1.5F,
-                step = 0.05F,
-                showAsPercentage = true,
-            )
+            if (advancedMode) {
+                SliderPreference(
+                    adapter = prefs2.drawerCellHeightFactor.getAdapter(),
+                    label = stringResource(id = R.string.row_height_label),
+                    valueRange = 0.3F..1.5F,
+                    step = 0.1F,
+                    showAsPercentage = true,
+                )
+                SliderPreference(
+                    adapter = prefs2.drawerLeftRightMarginFactor.getAdapter(),
+                    label = stringResource(id = R.string.app_drawer_indent_label),
+                    valueRange = 0.0F..1.5F,
+                    step = 0.05F,
+                    showAsPercentage = true,
+                )
+            }
         }
         PreferenceGroup(heading = stringResource(id = R.string.icons)) {
             SliderPreference(

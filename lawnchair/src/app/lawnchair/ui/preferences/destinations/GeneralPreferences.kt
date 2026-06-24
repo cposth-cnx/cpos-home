@@ -126,7 +126,7 @@ fun GeneralPreferences() {
         PreferenceGroup(
             heading = stringResource(id = R.string.icons),
             description = stringResource(id = (R.string.adaptive_icon_background_description)),
-            showDescription = wrapAdaptiveIcons.state.value,
+            showDescription = advancedMode && wrapAdaptiveIcons.state.value,
         ) {
             NavigationActionPreference(
                 label = stringResource(id = R.string.icon_style_label),
