@@ -34,6 +34,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -71,6 +72,7 @@ fun About(
     val advancedModeAdapter = prefs2.advancedMode.getAdapter()
     val advancedModeUnlocked = advancedModeUnlockedAdapter.state.value
     var logoTapCount by remember { mutableIntStateOf(0) }
+    var countdownToast by remember { mutableStateOf<Toast?>(null) }
 
     PreferenceLayoutLazyColumn(
         label = stringResource(id = R.string.about_label),
@@ -93,17 +95,42 @@ fun About(
                         .size(72.dp)
                         .clip(CircleShape)
                         .clickable {
-                            if (advancedModeUnlocked) return@clickable
-                            logoTapCount++
-                            if (logoTapCount >= ADVANCED_MODE_TAP_THRESHOLD) {
-                                logoTapCount = 0
-                                advancedModeUnlockedAdapter.onChange(true)
-                                advancedModeAdapter.onChange(true)
-                                Toast.makeText(
+                            if (advancedModeUnlocked) {
+                                countdownToast?.cancel()
+                                countdownToast = Toast.makeText(
                                     context,
-                                    R.string.advanced_mode_enabled_toast,
+                                    R.string.advanced_mode_already_enabled_toast,
                                     Toast.LENGTH_SHORT,
-                                ).show()
+                                ).also { it.show() }
+                                return@clickable
+                            }
+                            logoTapCount++
+                            val remaining = ADVANCED_MODE_TAP_THRESHOLD - logoTapCount
+                            countdownToast?.cancel()
+                            when {
+                                remaining <= 0 -> {
+                                    logoTapCount = 0
+                                    advancedModeUnlockedAdapter.onChange(true)
+                                    advancedModeAdapter.onChange(true)
+                                    countdownToast = Toast.makeText(
+                                        context,
+                                        R.string.advanced_mode_enabled_toast,
+                                        Toast.LENGTH_SHORT,
+                                    ).also { it.show() }
+                                }
+                                // Start counting down once only a few taps remain,
+                                // mirroring Android's "steps away from being a developer" prompt.
+                                remaining <= ADVANCED_MODE_TAP_THRESHOLD - 3 -> {
+                                    countdownToast = Toast.makeText(
+                                        context,
+                                        context.resources.getQuantityString(
+                                            R.plurals.advanced_mode_steps_away_toast,
+                                            remaining,
+                                            remaining,
+                                        ),
+                                        Toast.LENGTH_SHORT,
+                                    ).also { it.show() }
+                                }
                             }
                         },
                 )
@@ -167,7 +194,15 @@ fun About(
                     cutBottom = true,
                 ) {
                     SwitchPreference(
-                        adapter = advancedModeAdapter,
+                        checked = advancedModeAdapter.state.value,
+                        onCheckedChange = { enabled ->
+                            advancedModeAdapter.onChange(enabled)
+                            // Turning Advanced Mode off also re-locks it, hiding the toggle.
+                            // It can be unlocked again by tapping the logo 7 times.
+                            if (!enabled) {
+                                advancedModeUnlockedAdapter.onChange(false)
+                            }
+                        },
                         label = stringResource(id = R.string.advanced_mode_label),
                         description = stringResource(id = R.string.advanced_mode_description),
                     )

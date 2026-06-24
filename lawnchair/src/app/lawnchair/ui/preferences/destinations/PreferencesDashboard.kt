@@ -242,6 +242,7 @@ fun RowScope.PreferencesOverflowMenu(
     val highlightShape = MaterialTheme.shapes.large
 
     val pref2 = preferenceManager2()
+    val advancedMode by pref2.advancedMode.getAdapter().state
     val coroutineScope = rememberCoroutineScope()
     var showResetConfirmation by remember { mutableStateOf(false) }
 
@@ -331,22 +332,24 @@ fun RowScope.PreferencesOverflowMenu(
                 Text(text = stringResource(id = R.string.debug_restart_launcher))
             },
         )
-        DropdownMenuItem(
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Outlined.Science,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            },
-            onClick = {
-                onNavigate(ExperimentalFeatures)
-                hideMenu()
-            },
-            text = {
-                Text(text = stringResource(id = R.string.experimental_features_label))
-            },
-        )
+        if (advancedMode) {
+            DropdownMenuItem(
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Outlined.Science,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                },
+                onClick = {
+                    onNavigate(ExperimentalFeatures)
+                    hideMenu()
+                },
+                text = {
+                    Text(text = stringResource(id = R.string.experimental_features_label))
+                },
+            )
+        }
         PreferenceDivider(modifier = Modifier.padding(vertical = 8.dp))
         DropdownMenuItem(
             leadingIcon = {
@@ -380,22 +383,24 @@ fun RowScope.PreferencesOverflowMenu(
                 Text(text = stringResource(id = R.string.restore_backup))
             },
         )
-        DropdownMenuItem(
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Rounded.SettingsBackupRestore,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            },
-            onClick = {
-                openRestoreNovaBackup()
-                hideMenu()
-            },
-            text = {
-                Text(text = stringResource(id = R.string.restore_nova_backup))
-            },
-        )
+        if (advancedMode) {
+            DropdownMenuItem(
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Rounded.SettingsBackupRestore,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                },
+                onClick = {
+                    openRestoreNovaBackup()
+                    hideMenu()
+                },
+                text = {
+                    Text(text = stringResource(id = R.string.restore_nova_backup))
+                },
+            )
+        }
         PreferenceDivider(modifier = Modifier.padding(vertical = 8.dp))
         DropdownMenuItem(
             leadingIcon = {

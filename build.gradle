@@ -171,7 +171,12 @@ android {
     applicationVariants.configureEach { variant ->
         variant.outputs.configureEach {
             def channel = variant.productFlavors.last().name
-            outputFileName = "Lawnchair.${variant.versionName}.$channel.${variant.buildType.name}.apk"
+            if (variant.buildType.name == "release") {
+                // e.g. "CPOS Home 15.0.1.apk"
+                outputFileName = "CPOS Home ${variant.versionName}.apk"
+            } else {
+                outputFileName = "CPOS Home.${variant.versionName}.$channel.${variant.buildType.name}.apk"
+            }
         }
     }
 

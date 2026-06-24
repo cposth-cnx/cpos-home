@@ -40,28 +40,31 @@ fun DrawerSearchPreference(
 
     val showDrawerSearchBar = !prefs2.hideAppDrawerSearchBar.getAdapter()
     val hiddenApps = prefs2.hiddenApps.getAdapter().state.value
+    val advancedMode = prefs2.advancedMode.getAdapter().state.value
 
     MainSwitchPreference(
         adapter = showDrawerSearchBar,
         label = stringResource(id = R.string.show_app_search_bar),
         modifier = modifier,
     ) {
-        PreferenceGroup(heading = stringResource(R.string.general_label)) {
-            ExpandAndShrink(visible = hiddenApps.isNotEmpty()) {
-                HiddenAppsInSearchPreference()
+        if (advancedMode) {
+            PreferenceGroup(heading = stringResource(R.string.general_label)) {
+                ExpandAndShrink(visible = hiddenApps.isNotEmpty()) {
+                    HiddenAppsInSearchPreference()
+                }
+                SwitchPreference(
+                    adapter = prefs2.autoShowKeyboardInDrawer.getAdapter(),
+                    label = stringResource(id = R.string.pref_search_auto_show_keyboard),
+                )
+                SearchProvider(
+                    context = context,
+                )
+                SwitchPreference(
+                    label = stringResource(R.string.allapps_match_qsb_style_label),
+                    description = stringResource(R.string.allapps_match_qsb_style_description),
+                    adapter = prefs2.matchHotseatQsbStyle.getAdapter(),
+                )
             }
-            SwitchPreference(
-                adapter = prefs2.autoShowKeyboardInDrawer.getAdapter(),
-                label = stringResource(id = R.string.pref_search_auto_show_keyboard),
-            )
-            SearchProvider(
-                context = context,
-            )
-            SwitchPreference(
-                label = stringResource(R.string.allapps_match_qsb_style_label),
-                description = stringResource(R.string.allapps_match_qsb_style_description),
-                adapter = prefs2.matchHotseatQsbStyle.getAdapter(),
-            )
         }
 
         PreferenceGroup(heading = stringResource(id = R.string.show_search_result_types)) {
