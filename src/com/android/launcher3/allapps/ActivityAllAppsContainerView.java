@@ -332,6 +332,15 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
                 0 // Bottom left
         };
         mBottomSheetBackgroundColor = ColorTokens.SurfaceDimColor.resolveColor(getContext());
+        // Honor the user's "App drawer background color" preference so the bottom sheet
+        // (shown on large screens/tablets) doesn't fall back to the tinted SurfaceDim tone.
+        var bottomSheetColorOptions = PreferenceExtensionsKt.firstBlocking(
+                pref2.getAppDrawerBackgroundColor());
+        var bottomSheetColor = bottomSheetColorOptions.getColorPreferenceEntry()
+                .getLightColor().invoke(mContext);
+        if (bottomSheetColor != 0) {
+            mBottomSheetBackgroundColor = bottomSheetColor;
+        }
         updateBackgroundVisibility(mActivityContext.getDeviceProfile());
         mSearchUiManager.initializeSearch(this);
     }
