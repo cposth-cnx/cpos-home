@@ -158,7 +158,7 @@ fun About(
             )
         }
         item {
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(24.dp))
         }
         if (advancedModeUnlocked) {
             item {
