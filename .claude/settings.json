@@ -41,7 +41,12 @@
       "Bash(./gradlew :installLawnWithQuickstepGithubRelease)",
       "Bash(echo \"exit-grep:$?\")",
       "Bash(adb pull *)",
-      "Bash(python3 -)"
+      "Bash(python3 -)",
+      "Bash(echo \"exit=$?\")",
+      "Bash(timeout 580 ./gradlew :compileLawnchairWithQuickstepLawnWithQuickstepDebugKotlin -q)",
+      "Bash(echo \"EXIT=$?\")",
+      "Bash(./gradlew tasks *)",
+      "Bash(grep -iE \"^assemble.*Release$\")"
     ],
     "additionalDirectories": [
       "/private/tmp"

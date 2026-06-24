@@ -792,6 +792,17 @@ class PreferenceManager2 private constructor(private val context: Context) :
         }
     }
 
+    /**
+     * Resets every stored preference back to its default value by clearing both the
+     * DataStore backing this manager and the legacy SharedPreferences backing
+     * [LawnchairPreferenceManager]. Callers should restart the launcher afterwards so the
+     * defaults are picked up everywhere.
+     */
+    suspend fun resetToDefault() {
+        preferencesDataStore.edit { it.clear() }
+        LawnchairPreferenceManager.getInstance(context).sp.edit().clear().commit()
+    }
+
     private fun initializeIconShape(shape: IconShape) {
         CustomAdaptiveIconDrawable.sInitialized = true
         CustomAdaptiveIconDrawable.sMaskId = shape.getHashString()

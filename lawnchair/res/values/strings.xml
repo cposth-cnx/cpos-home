@@ -275,6 +275,10 @@
     <string name="reset_custom_icons">Reset custom icons</string>
     <string name="reset_custom_icons_confirmation">All custom icons will be reset. Do you want to continue?</string>
 
+    <string name="reset_settings">Reset to default</string>
+    <string name="reset_settings_confirmation_title">Reset to default</string>
+    <string name="reset_settings_confirmation">All settings will be reset to their default values. Do you want to continue?</string>
+
     <string name="remove_all_views_from_home_screen">Clear home screen</string>
     <string name="remove_all_views_from_home_screen_desc">Home screen will be cleared. Do you want to continue?</string>
 

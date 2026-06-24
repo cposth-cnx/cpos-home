@@ -21,17 +21,24 @@ import androidx.compose.material.icons.outlined.SettingsBackupRestore
 import androidx.compose.material.icons.rounded.Backup
 import androidx.compose.material.icons.rounded.Build
 import androidx.compose.material.icons.rounded.Refresh
+import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material.icons.rounded.Science
 import androidx.compose.material.icons.rounded.SettingsBackupRestore
 import androidx.compose.material.icons.rounded.TipsAndUpdates
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
@@ -78,6 +85,7 @@ import app.lawnchair.util.isDefaultLauncher
 import app.lawnchair.util.restartLauncher
 import com.android.launcher3.BuildConfig
 import com.android.launcher3.R
+import kotlinx.coroutines.launch
 
 @Composable
 fun PreferencesDashboard(
@@ -233,6 +241,37 @@ fun RowScope.PreferencesOverflowMenu(
     val highlightColor = MaterialTheme.colorScheme.surfaceColorAtElevation(4.dp)
     val highlightShape = MaterialTheme.shapes.large
 
+    val pref2 = preferenceManager2()
+    val coroutineScope = rememberCoroutineScope()
+    var showResetConfirmation by remember { mutableStateOf(false) }
+
+    if (showResetConfirmation) {
+        val resetContext = LocalContext.current
+        AlertDialog(
+            onDismissRequest = { showResetConfirmation = false },
+            title = { Text(text = stringResource(id = R.string.reset_settings_confirmation_title)) },
+            text = { Text(text = stringResource(id = R.string.reset_settings_confirmation)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showResetConfirmation = false
+                        coroutineScope.launch {
+                            pref2.resetToDefault()
+                            restartLauncher(resetContext)
+                        }
+                    },
+                ) {
+                    Text(text = stringResource(id = R.string.action_reset))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showResetConfirmation = false }) {
+                    Text(text = stringResource(id = android.R.string.cancel))
+                }
+            },
+        )
+    }
+
     if (enableDebug) {
         ClickableIcon(
             imageVector = Icons.Rounded.Build,
@@ -355,6 +394,26 @@ fun RowScope.PreferencesOverflowMenu(
             },
             text = {
                 Text(text = stringResource(id = R.string.restore_nova_backup))
+            },
+        )
+        PreferenceDivider(modifier = Modifier.padding(vertical = 8.dp))
+        DropdownMenuItem(
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Rounded.RestartAlt,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.error,
+                )
+            },
+            onClick = {
+                hideMenu()
+                showResetConfirmation = true
+            },
+            text = {
+                Text(
+                    text = stringResource(id = R.string.reset_settings),
+                    color = MaterialTheme.colorScheme.error,
+                )
             },
         )
     }

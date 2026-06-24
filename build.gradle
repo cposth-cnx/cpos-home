@@ -139,15 +139,11 @@ final def buildCommit = providers.exec {
     commandLine('git', 'rev-parse', '--short=7', 'HEAD')
 }.standardOutput.asText.get().trim()
 
-final def ciBuild = System.getenv("CI") == "true"
-final def ciRef = System.getenv("GITHUB_REF") ?: ""
-final def ciRunNumber = System.getenv("GITHUB_RUN_NUMBER") ?: ""
-final def isReleaseBuild = ciBuild && ciRef.contains("beta")
-final def devReleaseName = ciBuild ? "Dev.(#${ciRunNumber})" : "Dev.(${buildCommit})"
-final def version = "15"
-final def releaseName = "Beta 3"
-final def versionDisplayName = "${version}.${isReleaseBuild ? releaseName : devReleaseName}"
-final def majorVersion = versionDisplayName.split("\\.")[0]
+// CPOS Home version. The leading "15" denotes the Lawnchair (Android 15) release this
+// project was forked from; the remaining parts are CPOS Home's own version.
+final def version = "15.0.1"
+final def versionDisplayName = version
+final def majorVersion = version.split("\\.")[0]
 
 final def quickstepMinSdk = "29"
 final def quickstepMaxSdk = "35"
@@ -155,9 +151,11 @@ final def quickstepMaxSdk = "35"
 android {
     namespace "com.android.launcher3"
     defaultConfig {
-        // Lawnchair Launcher 15.0 Beta 3
+        // CPOS Home 15.0.1 (Android 15.0, Release stage, revision 1)
+        // versionCode parts: [Android major]_[Android minor]_[stage]_[dev version]_[revision]
+        // stage: dev=00, alpha=01, beta=02, RC=03, release=04
         // See CONTRIBUTING.md#versioning-scheme
-        versionCode 15_00_02_03_00
+        versionCode 15_00_04_00_01
         versionName "${versionDisplayName}"
         buildConfigField "String", "VERSION_DISPLAY_NAME", "\"${versionDisplayName}\""
         buildConfigField "String", "MAJOR_VERSION", "\"${majorVersion}\""
