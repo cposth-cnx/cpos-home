@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./gradlew assembleLawnWithQuickstepGithubRelease)",
+      "Bash(adb install *)",
+      "Bash(adb shell *)",
+      "Bash(git submodule *)",
+      "Bash(git checkout *)",
+      "Bash(git switch *)",
+      "Bash(git stash *)",
+      "Bash(./gradlew assembleLawnWithQuickstepGithubRelease --console=plain)",
+      "Bash(./gradlew assembleLawnWithQuickstepGithubRelease --no-configuration-cache --console=plain)",
+      "Bash(./gradlew --stop)",
+      "Bash(./gradlew assembleLawnWithQuickstepGithubRelease --no-configuration-cache -Dorg.gradle.vfs.watch=false --console=plain)",
+      "Bash(./gradlew clean *)",
+      "Bash(xargs git log -1 --pretty=format:'%h | %an | %ad | %s' --date=short)",
+      "Bash(gh auth *)",
+      "Bash(gh api *)",
+      "Bash(set -e)",
+      "Bash(mv .git /Users/t1ramisu/Data/Code/lawnchair-git-backup)",
+      "Bash(rm -f platform_frameworks_libs_systemui/.git)",
+      "Bash(rm -f .gitmodules)",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(xargs -I{} du -k \"{}\")"
+    ]
+  }
+}
