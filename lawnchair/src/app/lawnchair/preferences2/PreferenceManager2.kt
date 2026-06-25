@@ -61,6 +61,7 @@ import com.android.launcher3.util.ComponentKey
 import com.android.launcher3.util.DynamicResource
 import com.android.launcher3.util.MainThreadInitializedObject
 import com.android.launcher3.util.SafeCloseable
+import com.android.launcher3.util.window.WindowManagerProxy.MIN_TABLET_WIDTH
 import com.patrykmichalik.opto.core.PreferenceManager
 import com.patrykmichalik.opto.core.firstBlocking
 import com.patrykmichalik.opto.core.setBlocking
@@ -78,6 +79,9 @@ class PreferenceManager2 private constructor(private val context: Context) :
 
     private val scope = MainScope()
     private val resourceProvider = DynamicResource.provider(context)
+
+    // Phones (smallest width < 600dp) get more compact defaults than tablets.
+    private val isTablet = context.resources.configuration.smallestScreenWidthDp >= MIN_TABLET_WIDTH
     private var liveInformationManager: LiveInformationManager =
         LiveInformationManager.getInstance(context)
 
@@ -415,7 +419,7 @@ class PreferenceManager2 private constructor(private val context: Context) :
 
     val homeIconSizeFactor = preference(
         key = floatPreferencesKey(name = "home_icon_size_factor"),
-        defaultValue = resourceProvider.getFloat(R.dimen.config_default_home_icon_size_factor),
+        defaultValue = if (isTablet) resourceProvider.getFloat(R.dimen.config_default_home_icon_size_factor) else 1f,
         onSet = { reloadHelper.reloadGrid() },
     )
 
@@ -445,7 +449,7 @@ class PreferenceManager2 private constructor(private val context: Context) :
 
     val drawerIconSizeFactor = preference(
         key = floatPreferencesKey(name = "drawer_icon_size_factor"),
-        defaultValue = resourceProvider.getFloat(R.dimen.config_default_drawer_icon_size_factor),
+        defaultValue = if (isTablet) resourceProvider.getFloat(R.dimen.config_default_drawer_icon_size_factor) else 1f,
         onSet = { reloadHelper.reloadGrid() },
     )
 
@@ -487,7 +491,7 @@ class PreferenceManager2 private constructor(private val context: Context) :
 
     val drawerLeftRightMarginFactor = preference(
         key = floatPreferencesKey(name = "drawer_left_right_factor"),
-        defaultValue = resourceProvider.getFloat(R.dimen.config_default_drawer_left_right_factor),
+        defaultValue = if (isTablet) resourceProvider.getFloat(R.dimen.config_default_drawer_left_right_factor) else 0.1f,
         onSet = { reloadHelper.reloadGrid() },
     )
 
@@ -613,7 +617,7 @@ class PreferenceManager2 private constructor(private val context: Context) :
 
     val drawerColumns = idpPreference(
         key = intPreferencesKey(name = "drawer_columns"),
-        defaultSelector = { numAllAppsColumns },
+        defaultSelector = { if (isTablet) numAllAppsColumns else 4 },
         onSet = { reloadHelper.reloadGrid() },
     )
 

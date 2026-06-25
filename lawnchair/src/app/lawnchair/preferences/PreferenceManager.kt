@@ -29,11 +29,15 @@ import com.android.launcher3.model.DeviceGridState
 import com.android.launcher3.util.ComponentKey
 import com.android.launcher3.util.MainThreadInitializedObject
 import com.android.launcher3.util.SafeCloseable
+import com.android.launcher3.util.window.WindowManagerProxy.MIN_TABLET_WIDTH
 
 class PreferenceManager private constructor(private val context: Context) :
     BasePreferenceManager(context),
     SafeCloseable {
     private val idp get() = InvariantDeviceProfile.INSTANCE.get(context)
+
+    // Phones (smallest width < 600dp) get more compact defaults than tablets.
+    private val isTablet = context.resources.configuration.smallestScreenWidthDp >= MIN_TABLET_WIDTH
     private val reloadIcons = { idp.onPreferencesChanged(context) }
     private val reloadGrid: () -> Unit = { idp.onPreferencesChanged(context) }
 
@@ -50,7 +54,7 @@ class PreferenceManager private constructor(private val context: Context) :
     val shadowBGIcons = BoolPref("pref_shadowBGIcons", true, recreate)
     val addIconToHome = BoolPref("pref_add_icon_to_home", true)
     val hotseatColumns = IntPref("pref_hotseatColumns", 4, reloadGrid)
-    val workspaceColumns = IntPref("pref_workspaceColumns", 5)
+    val workspaceColumns = IntPref("pref_workspaceColumns", if (isTablet) 5 else 4)
     val workspaceRows = IntPref("pref_workspaceRows", 5)
     val workspaceIncreaseMaxGridSize = BoolPref("pref_workspace_increase_max_grid_size", false)
     val folderRows = IdpIntPref("pref_folderRows", { numFolderRows[INDEX_DEFAULT] }, reloadGrid)
