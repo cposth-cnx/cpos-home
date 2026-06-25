@@ -141,7 +141,7 @@ final def buildCommit = providers.exec {
 
 // CPOS Home version. The leading "15" denotes the Lawnchair (Android 15) release this
 // project was forked from; the remaining parts are CPOS Home's own version.
-final def version = "15.0.4"
+final def version = "15.0.5"
 final def versionDisplayName = version
 final def majorVersion = version.split("\\.")[0]
 
@@ -151,11 +151,11 @@ final def quickstepMaxSdk = "35"
 android {
     namespace "com.android.launcher3"
     defaultConfig {
-        // CPOS Home 15.0.4 (Android 15.0, Release stage, revision 4)
+        // CPOS Home 15.0.5 (Android 15.0, Release stage, revision 5)
         // versionCode parts: [Android major]_[Android minor]_[stage]_[dev version]_[revision]
         // stage: dev=00, alpha=01, beta=02, RC=03, release=04
         // See CONTRIBUTING.md#versioning-scheme
-        versionCode 15_00_04_00_04
+        versionCode 15_00_04_00_05
         versionName "${versionDisplayName}"
         buildConfigField "String", "VERSION_DISPLAY_NAME", "\"${versionDisplayName}\""
         buildConfigField "String", "MAJOR_VERSION", "\"${majorVersion}\""

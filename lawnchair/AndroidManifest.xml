@@ -38,6 +38,12 @@
     <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES" tools:ignore="ProtectedPermissions"/>
     <uses-permission android:name="android.permission.STATUS_BAR_SERVICE" tools:ignore="ProtectedPermissions"/>
     <uses-permission android:name="android.permission.SUSPEND_APPS" tools:ignore="ProtectedPermissions" />
+    <!-- Both granted over adb so SetLocaleReceiver can change the system language live:
+         CHANGE_CONFIGURATION (development-protection perm, via pm grant) authorizes the config
+         update; WRITE_SETTINGS (appop, via `appops set ... allow`) is also required by
+         updatePersistentConfiguration() to persist it across reboots. -->
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" tools:ignore="ProtectedPermissions" />
 
     <!--override minSdk declared in it-->
     <uses-sdk tools:overrideLibrary="com.kieronquinn.app.smartspacer.sdk" />
@@ -141,6 +147,14 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="${applicationId}.SET_WALLPAPER" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name="app.lawnchair.provisioning.SetLocaleReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="${applicationId}.SET_LOCALE" />
             </intent-filter>
         </receiver>
 

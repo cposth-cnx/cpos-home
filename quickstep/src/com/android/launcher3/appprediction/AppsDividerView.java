@@ -32,6 +32,7 @@ import android.view.accessibility.AccessibilityManager;
 
 import androidx.annotation.ColorInt;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
@@ -212,7 +213,10 @@ public class AppsDividerView extends View implements FloatingHeaderRow {
     private Layout getAllAppsLabelLayout() {
         if (mAllAppsLabelLayout == null) {
             mPaint.setAntiAlias(true);
-            mPaint.setTypeface(Typeface.create("google-sans", Typeface.NORMAL));
+            Typeface googleSans = ResourcesCompat.getFont(getContext(), R.font.google_sans);
+            mPaint.setTypeface(googleSans != null
+                    ? googleSans
+                    : Typeface.create("google-sans", Typeface.NORMAL));
             mPaint.setTextSize(
                     getResources().getDimensionPixelSize(R.dimen.all_apps_label_text_size));
 
