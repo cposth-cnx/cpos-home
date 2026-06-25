@@ -122,7 +122,6 @@ public class BubbleTextView extends TextView implements ItemInfoUpdateReceiver,
     private static final int DISPLAY_DRAWER_FOLDER = 10;
 
     private static final float MIN_LETTER_SPACING = -0.05f;
-    private static final int MAX_SEARCH_LOOP_COUNT = 20;
     private static final Character NEW_LINE = '\n';
     private static final String EMPTY = "";
     private static final StringMatcherUtility.StringMatcher MATCHER = StringMatcherUtility.StringMatcher.getInstance();
@@ -634,53 +633,8 @@ public class BubbleTextView extends TextView implements ItemInfoUpdateReceiver,
         if (width <= 0) {
             return;
         }
+        // Never compress letter spacing; rely on ellipsis to truncate long labels.
         setLetterSpacing(0);
-
-        String text = getText().toString();
-        TextPaint paint = getPaint();
-        if (paint.measureText(text) < width) {
-            return;
-        }
-
-        float spacing = findBestSpacingValue(paint, text, width, MIN_LETTER_SPACING);
-        // Reset the paint value so that the call to TextView does appropriate diff.
-        paint.setLetterSpacing(0);
-        setLetterSpacing(spacing);
-    }
-
-    /**
-     * Find the appropriate text spacing to display the provided text
-     *
-     * @param paint          the paint used by the text view
-     * @param text           the text to display
-     * @param allowedWidthPx available space to render the text
-     * @param minSpacingEm   minimum spacing allowed between characters
-     * @return the final textSpacing value
-     * @see #setLetterSpacing(float)
-     */
-    private float findBestSpacingValue(TextPaint paint, String text, float allowedWidthPx,
-            float minSpacingEm) {
-        paint.setLetterSpacing(minSpacingEm);
-        if (paint.measureText(text) > allowedWidthPx) {
-            // If there is no result at high limit, we can do anything more
-            return minSpacingEm;
-        }
-
-        float lowLimit = 0;
-        float highLimit = minSpacingEm;
-
-        for (int i = 0; i < MAX_SEARCH_LOOP_COUNT; i++) {
-            float value = (lowLimit + highLimit) / 2;
-            paint.setLetterSpacing(value);
-            if (paint.measureText(text) < allowedWidthPx) {
-                highLimit = value;
-            } else {
-                lowLimit = value;
-            }
-        }
-
-        // At the end error on the higher side
-        return highLimit;
     }
 
     @SuppressWarnings("wrongcall")
