@@ -68,10 +68,10 @@ class FontCache private constructor(private val context: Context) : SafeCloseabl
                 .toList()
         }
 
-    val uiRegular = ResourceFont(context, R.font.inter_regular, "Inter v3 " + context.getString(R.string.font_weight_regular))
-    val uiMedium = ResourceFont(context, R.font.inter_medium, "Inter v3 " + context.getString(R.string.font_weight_medium))
-    val uiText = ResourceFont(context, R.font.inter_regular, "Inter v3 " + context.getString(R.string.font_weight_regular))
-    val uiTextMedium = ResourceFont(context, R.font.inter_medium, "Inter v3 " + context.getString(R.string.font_weight_medium))
+    val uiRegular = ResourceFont(context, R.font.google_sans, "Google Sans " + context.getString(R.string.font_weight_regular))
+    val uiMedium = ResourceFont(context, R.font.google_sans_medium, "Google Sans " + context.getString(R.string.font_weight_medium))
+    val uiText = ResourceFont(context, R.font.google_sans, "Google Sans " + context.getString(R.string.font_weight_regular))
+    val uiTextMedium = ResourceFont(context, R.font.google_sans_medium, "Google Sans " + context.getString(R.string.font_weight_medium))
 
     suspend fun getTypeface(font: Font): Typeface? {
         return loadFontAsync(font).await()?.typeface

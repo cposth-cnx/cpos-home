@@ -49,7 +49,16 @@
       "Bash(grep -iE \"^assemble.*Release$\")",
       "Bash(awk '/productFlavors/,/^    }/' build.gradle)",
       "Bash(awk 'NR>=271 && NR<=320' build.gradle)",
-      "Bash(awk 'NR>=218 && NR<=235' build.gradle)"
+      "Bash(awk 'NR>=218 && NR<=235' build.gradle)",
+      "Bash(python3 -c ' *)",
+      "Bash(pip install *)",
+      "Bash(./gradlew :lawnchair:compileLawnWithQuickstepGithubDebugKotlin -q)",
+      "Bash(./gradlew projects *)",
+      "Bash(./gradlew compileLawnWithQuickstepGithubDebugKotlin -q)",
+      "Bash(adb -s emulator-5554 install -r \"build/outputs/apk/lawnWithQuickstepGithub/release/CPOS Home 15.0.2.apk\")",
+      "Bash(adb -s emulator-5554 shell am force-stop com.cpos.home)",
+      "Bash(adb -s emulator-5554 shell monkey -p com.cpos.home -c android.intent.category.HOME 1)",
+      "Bash(adb -s emulator-5554 shell \"logcat -d -t 400 | grep -iE 'FATAL EXCEPTION|AndroidRuntime.*com.cpos.home'\")"
     ],
     "additionalDirectories": [
       "/private/tmp"

@@ -23,28 +23,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.android.launcher3.R
 
-private val InterFontFamily = FontFamily(
-    Font(R.font.inter_regular, FontWeight.Normal),
-    Font(R.font.inter_medium, FontWeight.Medium),
-    Font(R.font.inter_semi_bold, FontWeight.SemiBold),
-    Font(R.font.inter_bold, FontWeight.Bold),
+private val GoogleSansFontFamily = FontFamily(
+    Font(R.font.google_sans, FontWeight.Normal),
+    Font(R.font.google_sans_medium, FontWeight.Medium),
+    Font(R.font.google_sans_semi_bold, FontWeight.SemiBold),
+    Font(R.font.google_sans_bold, FontWeight.Bold),
 )
 
 private val base = Typography()
 val Typography = Typography(
-    displayLarge = base.displayLarge.copy(fontFamily = InterFontFamily),
-    displayMedium = base.displayMedium.copy(fontFamily = InterFontFamily),
-    displaySmall = base.displaySmall.copy(fontFamily = InterFontFamily),
-    headlineLarge = base.headlineLarge.copy(fontFamily = InterFontFamily),
-    headlineMedium = base.headlineMedium.copy(fontFamily = InterFontFamily),
-    headlineSmall = base.headlineSmall.copy(fontFamily = InterFontFamily),
-    titleLarge = base.titleLarge.copy(fontFamily = InterFontFamily),
-    titleMedium = base.titleMedium.copy(fontFamily = InterFontFamily),
-    titleSmall = base.titleSmall.copy(fontFamily = InterFontFamily),
-    bodyLarge = base.bodyLarge.copy(fontFamily = InterFontFamily, letterSpacing = 0.sp),
-    bodyMedium = base.bodyMedium.copy(fontFamily = InterFontFamily, letterSpacing = 0.1.sp),
-    bodySmall = base.bodySmall.copy(fontFamily = InterFontFamily),
-    labelLarge = base.labelLarge.copy(fontFamily = InterFontFamily),
-    labelMedium = base.labelMedium.copy(fontFamily = InterFontFamily),
-    labelSmall = base.labelSmall.copy(fontFamily = InterFontFamily),
+    displayLarge = base.displayLarge.copy(fontFamily = GoogleSansFontFamily),
+    displayMedium = base.displayMedium.copy(fontFamily = GoogleSansFontFamily),
+    displaySmall = base.displaySmall.copy(fontFamily = GoogleSansFontFamily),
+    headlineLarge = base.headlineLarge.copy(fontFamily = GoogleSansFontFamily),
+    headlineMedium = base.headlineMedium.copy(fontFamily = GoogleSansFontFamily),
+    headlineSmall = base.headlineSmall.copy(fontFamily = GoogleSansFontFamily),
+    titleLarge = base.titleLarge.copy(fontFamily = GoogleSansFontFamily),
+    titleMedium = base.titleMedium.copy(fontFamily = GoogleSansFontFamily),
+    titleSmall = base.titleSmall.copy(fontFamily = GoogleSansFontFamily),
+    bodyLarge = base.bodyLarge.copy(fontFamily = GoogleSansFontFamily, letterSpacing = 0.sp),
+    bodyMedium = base.bodyMedium.copy(fontFamily = GoogleSansFontFamily, letterSpacing = 0.1.sp),
+    bodySmall = base.bodySmall.copy(fontFamily = GoogleSansFontFamily),
+    labelLarge = base.labelLarge.copy(fontFamily = GoogleSansFontFamily),
+    labelMedium = base.labelMedium.copy(fontFamily = GoogleSansFontFamily),
+    labelSmall = base.labelSmall.copy(fontFamily = GoogleSansFontFamily),
 )
