@@ -136,6 +136,14 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name="app.lawnchair.provisioning.SetWallpaperReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="${applicationId}.SET_WALLPAPER" />
+            </intent-filter>
+        </receiver>
+
         <service
             android:name="app.lawnchair.bugreport.UploaderService"
             android:enabled="true"
