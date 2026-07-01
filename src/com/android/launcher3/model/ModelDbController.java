@@ -19,7 +19,6 @@ import static android.provider.BaseColumns._ID;
 import static android.util.Base64.NO_PADDING;
 import static android.util.Base64.NO_WRAP;
 
-import static com.android.launcher3.DefaultLayoutParser.RES_PARTNER_DEFAULT_LAYOUT;
 import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER;
 import static com.android.launcher3.LauncherSettings.Favorites.ITEM_TYPE;
 import static com.android.launcher3.LauncherSettings.Favorites.ITEM_TYPE_APP_PAIR;
@@ -79,7 +78,6 @@ import com.android.launcher3.provider.RestoreDbTask;
 import com.android.launcher3.util.IOUtils;
 import com.android.launcher3.util.IntArray;
 import com.android.launcher3.util.MainThreadInitializedObject.SandboxContext;
-import com.android.launcher3.util.Partner;
 import com.android.launcher3.widget.LauncherWidgetHolder;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -504,25 +502,18 @@ public class ModelDbController {
 
             LauncherWidgetHolder widgetHolder = mOpenHelper.newLauncherWidgetHolder();
             try {
-                AutoInstallsLayout loader = createWorkspaceLoaderFromAppRestriction(widgetHolder);
-                if (loader == null) {
-                    loader = AutoInstallsLayout.get(mContext, widgetHolder, mOpenHelper);
-                }
-                if (loader == null) {
-                    final Partner partner = Partner.get(mContext.getPackageManager());
-                    if (partner != null) {
-                        int workspaceResId = partner.getXmlResId(RES_PARTNER_DEFAULT_LAYOUT);
-                        if (workspaceResId != 0) {
-                            loader = new DefaultLayoutParser(mContext, widgetHolder,
-                                    mOpenHelper, partner.getResources(), workspaceResId);
-                        }
-                    }
-                }
-
-                final boolean usingExternallyProvidedLayout = loader != null;
-                if (loader == null) {
-                    loader = getDefaultLayoutParser(widgetHolder);
-                }
+                // cpos: always use our own (empty) internal default_workspace and
+                // ignore every externally provided layout source:
+                //   - createWorkspaceLoaderFromAppRestriction (Settings.Secure /
+                //     BlobStore layout push)
+                //   - AutoInstallsLayout.get (PLAY_AUTO_INSTALL)
+                //   - the GMS/OEM partner default layout
+                //     (com.android.launcher3.action.PARTNER_CUSTOMIZATION)
+                // On GMS devices these inject a Google folder plus loose Gemini /
+                // Play Store icons onto the Home screen. We want a clean, empty
+                // Home on every provisioned device instead.
+                final boolean usingExternallyProvidedLayout = false;
+                AutoInstallsLayout loader = getDefaultLayoutParser(widgetHolder);
 
                 // There might be some partially restored DB items, due to buggy restore logic
                 // in

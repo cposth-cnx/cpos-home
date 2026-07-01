@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     cpos: Intentionally empty default workspace.
+
+     The Home screen (workspace) and dock (hotseat) start with no app icons.
+     Every device_profiles grid points its defaultLayoutId here so a freshly
+     provisioned device shows a clean Home. Apps remain available in the app
+     drawer. See ModelDbController where the GMS/OEM partner default layout is
+     also skipped, otherwise it would re-inject Google/Gemini/Play Store icons.
+-->
+<favorites xmlns:launcher="http://schemas.android.com/apk/res-auto/com.android.launcher3" />
