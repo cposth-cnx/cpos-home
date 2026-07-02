@@ -183,7 +183,8 @@ public class AutoInstallsLayout {
 
     private final InvariantDeviceProfile mIdp;
     private final int mRowCount;
-    private final int mColumnCount;
+    // cpos: protected so DefaultLayoutParser can auto-flow package favorites by grid width.
+    protected final int mColumnCount;
     private final Map<String, LauncherActivityInfo> mActivityOverride;
     private final int[] mTemp = new int[2];
     @Thunk

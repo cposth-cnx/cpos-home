@@ -25,7 +25,7 @@
         launcher:numFolderColumns="3"
         launcher:numHotseatIcons="3"
         launcher:dbFile="launcher_3_by_3.db"
-        launcher:defaultLayoutId="@xml/default_workspace_empty"
+        launcher:defaultLayoutId="@xml/default_workspace_cpos"
         launcher:deviceCategory="phone" >
 
         <display-option
@@ -60,7 +60,7 @@
         launcher:numExtendedHotseatIcons="6"
         launcher:dbFile="launcher_4_by_4.db"
         launcher:inlineNavButtonsEndSpacing="@dimen/taskbar_button_margin_split"
-        launcher:defaultLayoutId="@xml/default_workspace_empty"
+        launcher:defaultLayoutId="@xml/default_workspace_cpos"
         launcher:deviceCategory="phone|multi_display" >
 
         <display-option
@@ -125,7 +125,7 @@
         launcher:numExtendedHotseatIcons="6"
         launcher:dbFile="launcher.db"
         launcher:inlineNavButtonsEndSpacing="@dimen/taskbar_button_margin_split"
-        launcher:defaultLayoutId="@xml/default_workspace_empty"
+        launcher:defaultLayoutId="@xml/default_workspace_cpos"
         launcher:deviceCategory="phone|multi_display" >
 
         <display-option
@@ -173,7 +173,7 @@
         launcher:inlineNavButtonsEndSpacing="@dimen/taskbar_button_margin_6_5"
         launcher:devicePaddingId="@xml/paddings_6x5"
         launcher:dbFile="launcher_6_by_5.db"
-        launcher:defaultLayoutId="@xml/default_workspace_empty"
+        launcher:defaultLayoutId="@xml/default_workspace_cpos"
         launcher:deviceCategory="tablet" >
 
         <display-option

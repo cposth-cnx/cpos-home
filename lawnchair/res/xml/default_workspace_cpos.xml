@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     cpos: Default Home workspace — the optional POS apps that the "Setup POS"
+     provisioner can side-load with apkeep (see cpos-pos-setup: APKEEP_APPS).
+
+     Each entry is a package-only <favorite launcher:packageName="..."> — the patched
+     DefaultLayoutParser resolves the app's own launcher activity + label via
+     getLaunchIntentForPackage (no hard-coded class names, no brand text authored
+     here). If an app isn't installed (or has no launcher activity, like the AnyDesk
+     ad1 plugin) it's skipped silently — no placeholder.
+
+     Positioning is AUTOMATIC: the parser packs the placed icons left-to-right, top
+     rows first, wrapping by the real grid width — so a skipped app leaves NO gap, and
+     this one file works for every grid (3x3 … 6x5). The launcher:x/y below are
+     ignored for these favorites; the ORDER of the entries is what matters.
+
+     Caveat: a default layout is only applied when the launcher DB is first created
+     (fresh install or `pm clear`). The provisioner installs these apps and then
+     clears the launcher (step 1b) so this layout is rebuilt with the apps present.
+-->
+<favorites xmlns:launcher="http://schemas.android.com/apk/res-auto/com.android.launcher3">
+
+    <!-- Wongnai Merchant -->
+    <favorite launcher:container="-100" launcher:screen="0" launcher:x="0" launcher:y="0"
+        launcher:packageName="com.wongnai.rms" />
+    <!-- Grab Merchant -->
+    <favorite launcher:container="-100" launcher:screen="0" launcher:x="0" launcher:y="0"
+        launcher:packageName="com.grab.merchant" />
+    <!-- Meri PoS -->
+    <favorite launcher:container="-100" launcher:screen="0" launcher:x="0" launcher:y="0"
+        launcher:packageName="com.factsblend.meriros.prod" />
+    <!-- Loyverse POS -->
+    <favorite launcher:container="-100" launcher:screen="0" launcher:x="0" launcher:y="0"
+        launcher:packageName="com.loyverse.sale" />
+    <!-- Shopee Partner -->
+    <favorite launcher:container="-100" launcher:screen="0" launcher:x="0" launcher:y="0"
+        launcher:packageName="com.shopeepay.merchant.th" />
+    <!-- AnyDesk -->
+    <favorite launcher:container="-100" launcher:screen="0" launcher:x="0" launcher:y="0"
+        launcher:packageName="com.anydesk.anydeskandroid" />
+    <!-- POSPOS -->
+    <favorite launcher:container="-100" launcher:screen="0" launcher:x="0" launcher:y="0"
+        launcher:packageName="com.codemobiles.pospos" />
+    <!-- Ocha -->
+    <favorite launcher:container="-100" launcher:screen="0" launcher:x="0" launcher:y="0"
+        launcher:packageName="com.ochapos.th" />
+
+</favorites>

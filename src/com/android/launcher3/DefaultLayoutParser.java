@@ -93,8 +93,50 @@ public class DefaultLayoutParser extends AutoInstallsLayout {
      */
     public class AppShortcutWithUriParser extends AppShortcutParser {
 
+        // cpos: running count of package-only favorites actually placed on the desktop, used to
+        // auto-flow them left-to-right / top rows first so a skipped (uninstalled) app leaves no gap.
+        private int mCposFlowCount = 0;
+
         @Override
         protected int invalidPackageOrClass(XmlPullParser parser) {
+            // cpos: support a package-only <favorite launcher:packageName="..."> (no className).
+            // Resolve the app's current launcher activity via getLaunchIntentForPackage — this works
+            // for any launchable app, unlike a MAIN/LAUNCHER uri which resolveActivity() drops for
+            // non-system third-party apps under MATCH_DEFAULT_ONLY. Skips silently if the app isn't
+            // installed or has no launcher activity (e.g. a plugin/service), so a device that
+            // installed only a subset of the optional apps shows just the ones it actually has.
+            final String packageName = getAttributeValue(parser, ATTR_PACKAGE_NAME);
+            if (!TextUtils.isEmpty(packageName)) {
+                Intent intent = mPackageManager.getLaunchIntentForPackage(packageName);
+                if (intent == null) {
+                    return -1;
+                }
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                        | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                ResolveInfo ri = mPackageManager.resolveActivity(intent, 0);
+                CharSequence label = ri != null ? ri.loadLabel(mPackageManager) : packageName;
+
+                // Auto-flow on the desktop: override the XML cell so placed icons pack contiguously
+                // (skipped apps leave no gap), wrapping by the real grid width. Packs by grid width
+                // so one layout works for every grid; the XML x/y are ignored for these favorites.
+                final Integer container = mValues.getAsInteger(Favorites.CONTAINER);
+                if (container != null && container == Favorites.CONTAINER_DESKTOP) {
+                    int cols = mColumnCount > 0 ? mColumnCount : 4;
+                    // On phones/foldables start on the SECOND row so icons don't sit under the top
+                    // QSB; the tablet (6x5) has room and starts on the first row.
+                    int rowOffset = InvariantDeviceProfile.deviceType
+                            == InvariantDeviceProfile.TYPE_TABLET ? 0 : 1;
+                    mValues.put(Favorites.CELLX, mCposFlowCount % cols);
+                    mValues.put(Favorites.CELLY, rowOffset + mCposFlowCount / cols);
+                    int id = addShortcut(label.toString(), intent, Favorites.ITEM_TYPE_APPLICATION);
+                    if (id >= 0) {
+                        mCposFlowCount++;
+                    }
+                    return id;
+                }
+                return addShortcut(label.toString(), intent, Favorites.ITEM_TYPE_APPLICATION);
+            }
+
             final String uri = getAttributeValue(parser, ATTR_URI);
             if (TextUtils.isEmpty(uri)) {
                 Log.e(TAG, "Skipping invalid <favorite> with no component or uri");
